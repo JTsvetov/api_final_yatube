@@ -12,7 +12,7 @@ class PostViewSet(viewsets.ModelViewSet):
     """Получение постов."""
     queryset = Post.objects.select_related('author').all()
     serializer_class = PostSerializer
-    permission_classes = [IsOwnerOrReadOnly,]
+    permission_classes = [IsOwnerOrReadOnly, ]
     pagination_class = LimitOffsetPagination
     ordering_fields = ('pub_date',)
 
@@ -23,7 +23,7 @@ class PostViewSet(viewsets.ModelViewSet):
 class CommentsViewSet(viewsets.ModelViewSet):
     """Получение комментариев к публикации."""
     serializer_class = CommentSerializer
-    permission_classes = [IsOwnerOrReadOnly,]
+    permission_classes = [IsOwnerOrReadOnly, ]
 
     def get_queryset(self):
         post = get_object_or_404(Post, id=self.kwargs.get('post_id'))
@@ -45,7 +45,7 @@ class FollowViewSet(viewsets.ModelViewSet):
     """Получение списка подписок пользователя."""
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
-    permission_classes = [permissions.IsAuthenticated,]
+    permission_classes = [permissions.IsAuthenticated, ]
     filter_backends = (filters.SearchFilter,)
     search_fields = ('user__username', 'following__username')
 
