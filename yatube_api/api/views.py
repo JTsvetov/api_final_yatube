@@ -1,4 +1,4 @@
-from posts.models import Follow, Group, Post
+from posts.models import Group, Post
 from rest_framework import filters, mixins, permissions, viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
@@ -54,7 +54,7 @@ class GroupsViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FollowViewSet(mixins.ListModelMixin, mixins.CreateModelMixin,
-                          viewsets.GenericViewSet):
+                    viewsets.GenericViewSet):
     """Получение списка подписок пользователя."""
     serializer_class = FollowSerializer
     permission_classes = (permissions.IsAuthenticated, )
