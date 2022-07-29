@@ -3,7 +3,7 @@ from rest_framework import filters, mixins, permissions, viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
 
-from .permissions import IsOwnerOrReadOnly, ReadOnly
+from .permissions import IsOwnerOrReadOnly
 from .serializers import (CommentSerializer, FollowSerializer, GroupSerializer,
                           PostSerializer)
 
@@ -19,12 +19,6 @@ class PostViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
-    def get_permissions(self):
-        if self.action == 'retrieve':
-            return (ReadOnly(), )
-
-        return super().get_permissions()
-
 
 class CommentsViewSet(viewsets.ModelViewSet):
     """Получение комментариев к публикации."""
@@ -39,12 +33,6 @@ class CommentsViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         post = get_object_or_404(Post, id=self.kwargs.get('post_id'))
         serializer.save(author=self.request.user, post=post)
-
-    def get_permissions(self):
-        if self.action == 'retrieve':
-            return (ReadOnly(), )
-
-        return super().get_permissions()
 
 
 class GroupsViewSet(viewsets.ReadOnlyModelViewSet):
